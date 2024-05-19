@@ -1,0 +1,91 @@
+# Ignore os arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignore os logs e caches do Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+
+# Ignore os arquivos de compilação do Visual Studio
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Ignore os arquivos gerados pelo sistema
+*.swp
+*.lock
+*.lock.json
+*.log
+*.hmap
+*.ipa
+*.a
+
+# Ignore os arquivos específicos do Unity
+sysinfo.txt
+*.stacktrace
+
+# Ignore as pastas de exportação
+ExportedObj/
+*.svd
+
+# Ignore os arquivos de configuração de IU
+.idea/
+*.sln
+*.user
+*.unityproj
+
+# Ignore os arquivos de configuração do Rider
+.idea/
+*.sln*
+*.user
+*.unityproj
+
+# Ignore os pacotes do Unity3D
+*.unitypackage
+
+# Ignore os arquivos de sistema
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Ignore os pacotes Node.js e NPM
+node_modules/
+npm-debug.log
+
+# Ignore os arquivos Yarn
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.*
+
+# Ignore os arquivos de log
+*.log
+*.log.*
+
+# Ignore os arquivos específicos de desenvolvimento
+.vscode/
+*.code-workspace
+
+# Ignore os arquivos do sistema operacional Linux
+*~
