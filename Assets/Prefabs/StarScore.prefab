@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5203404379737824395}
   - component: {fileID: 1882985846447677299}
   m_Layer: 0
-  m_Name: Score
+  m_Name: StarScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dae911d08cdf3a941ab5f4681b8966d9, type: 3}
-  m_Color: {r: 0.8235295, g: 0.28235295, b: 0.2784314, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 06c9a28c6199dcf45b4635caf5de187e, type: 3}
+  m_Color: {r: 0.8235295, g: 0.79215693, b: 0.2784314, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
@@ -123,7 +123,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8, y: 8}
+    oldSize: {x: 5.12, y: 4.96}
     newSize: {x: 2.56, y: 2.56}
     adaptiveTilingThreshold: 0.5
     drawMode: 1

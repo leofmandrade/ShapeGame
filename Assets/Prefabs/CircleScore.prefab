@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5203404379737824395}
   - component: {fileID: 1882985846447677299}
   m_Layer: 0
-  m_Name: Score
+  m_Name: CircleScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dae911d08cdf3a941ab5f4681b8966d9, type: 3}
-  m_Color: {r: 0.8235295, g: 0.28235295, b: 0.2784314, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 90d25e3618cde21429cd3123d8234b20, type: 3}
+  m_Color: {r: 0, g: 0.41960788, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1

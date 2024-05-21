@@ -5,6 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+    [SerializeField] private AudioSource audioSource;
 
     private void Awake()
     {
@@ -12,7 +13,6 @@ public class SoundManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
-            return;
         }
         else
         {
@@ -20,11 +20,15 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    [SerializeField] private AudioSource audioSource;
-
     public void PlaySound(AudioClip clip)
     {
-        audioSource.PlayOneShot(clip);
+        if (audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }
+        else
+        {
+            Debug.LogError("AudioSource or AudioClip is null");
+        }
     }
-
 }
