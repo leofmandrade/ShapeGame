@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         currentScore = 0;
         isInitialized = false;
-        Debug.Log("Game Manager Initialized");
+        // Debug.Log("Game Manager Initialized");
     }
 
     public void goToMainMenu()

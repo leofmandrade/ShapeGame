@@ -174,8 +174,8 @@ MonoBehaviour:
   speed: 3.6
   spawnPositions:
   - {x: -7, y: 14.4, z: 0}
-  - {x: 2.5, y: 14.4, z: 0}
   - {x: -2.5, y: 14.4, z: 0}
+  - {x: 2.5, y: 14.4, z: 0}
   - {x: 7, y: 14.4, z: 0}
   shapeID: 0
   ProxScore: {fileID: 0}

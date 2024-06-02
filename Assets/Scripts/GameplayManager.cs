@@ -8,16 +8,18 @@ public class GameplayManager : MonoBehaviour
 {
     #region START
 
+
     private bool jogoAcabado;
-
     public static GameplayManager instance;
-
     public List<Sprite> shapes;
+
 
     void Awake()
     {
         instance = this;    
         jogoAcabado = false;
+
+        GameManager.instance.isInitialized = true;
 
         score = 0;
         scoreText.text = score.ToString();
@@ -26,7 +28,52 @@ public class GameplayManager : MonoBehaviour
 
     #endregion
 
+
     #region GAME_LOGIC
+    public void FixedUpdate(){
+        if (Input.GetMouseButtonDown(0) && !jogoAcabado)
+        {
+            if (scoreAtual == null)
+            {
+                Debug.Log("scoreAtual is null");
+                GameOver();
+                return;
+            }
+
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 mousPos2D = new Vector2(pos.x, pos.y);
+            RaycastHit2D hit = Physics2D.Raycast(mousPos2D, Vector2.zero);
+
+            if (!hit.collider || !hit.collider.CompareTag("Block"))
+            {
+                Debug.Log("hit.collider is null or not a block");
+                GameOver();
+                return;
+            }
+
+
+            int currentScoreId = scoreAtual.shapeID;
+            int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
+
+            Debug.Log("currentScoreId: " + currentScoreId);
+            Debug.Log("clickedScoreId: " + clickedScoreId);
+            Debug.Log("--------------------");
+            if (currentScoreId != clickedScoreId)
+            {
+                Debug.Log("AQUIIIIIIIIIII");
+                GameOver();
+                return;
+            }
+
+
+            var tempScore = scoreAtual;
+            if (scoreAtual.ProxScore != null)
+            {
+                scoreAtual = scoreAtual.ProxScore;
+            }
+            Destroy(tempScore.gameObject);
+        }
+    }
 
     #endregion
 
@@ -39,6 +86,7 @@ public class GameplayManager : MonoBehaviour
     {
         score++;
         scoreText.text = score.ToString();
+        Debug.Log("Score: " + score);
         SoundManager.instance.PlaySound(scoreSound);
     }
 
@@ -53,25 +101,39 @@ public class GameplayManager : MonoBehaviour
 
         while (!jogoAcabado)
         {
-            // Instantiate a random prefab from the list
+            // // Instantiate a random prefab from the list
+            // Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
+            // if (tempScore == null)
+            // {
+            //     yield break;
+            // }
+
+            // if (ScoreAnt != null)
+            // {
+                
+            //     scoreAtual = tempScore;
+            //     ScoreAnt = tempScore;
+            // }
+            // else
+            // {
+            //     if (ScoreAnt != null)
+            //     {
+            //         ScoreAnt.ProxScore = tempScore;
+            //     }
+            //     ScoreAnt = tempScore;
+            // }
+
+
             Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
+
             if (tempScore == null)
             {
-                Debug.LogError("tempScore is null");
-                yield break;
-            }
-
-            if (ScoreAnt != null)
-            {
-                scoreAtual = tempScore;
                 ScoreAnt = tempScore;
+                scoreAtual = ScoreAnt;
             }
             else
             {
-                if (ScoreAnt != null)
-                {
-                    ScoreAnt.ProxScore = tempScore;
-                }
+                ScoreAnt.ProxScore = tempScore;
                 ScoreAnt = tempScore;
             }
 
@@ -90,14 +152,14 @@ public class GameplayManager : MonoBehaviour
     {
         jogoAcabado = true;
         OnGameOver?.Invoke();
-        // SoundManager.instance.PlaySound(gameOverSound);
+        SoundManager.instance.PlaySound(gameOverSound);
         GameManager.instance.currentScore = score;
         StartCoroutine(GameOverRoutine());
     }
 
     private IEnumerator GameOverRoutine()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0f);
         GameManager.instance.goToMainMenu();
     }
 
