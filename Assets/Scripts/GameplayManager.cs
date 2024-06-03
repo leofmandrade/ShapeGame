@@ -8,17 +8,16 @@ public class GameplayManager : MonoBehaviour
 {
     #region START
 
-
     private bool jogoAcabado;
     public static GameplayManager instance;
     public List<Sprite> shapes;
-
+    public Canvas gameOverCanvas;
 
     void Awake()
     {
         instance = this;    
         jogoAcabado = false;
-
+        gameOverCanvas.gameObject.SetActive(false);
         GameManager.instance.isInitialized = true;
 
         score = 0;
@@ -28,9 +27,10 @@ public class GameplayManager : MonoBehaviour
 
     #endregion
 
-
     #region GAME_LOGIC
-    public void FixedUpdate(){
+
+    public void FixedUpdate()
+    {
         if (Input.GetMouseButtonDown(0) && !jogoAcabado)
         {
             if (scoreAtual == null)
@@ -51,7 +51,6 @@ public class GameplayManager : MonoBehaviour
                 return;
             }
 
-
             int currentScoreId = scoreAtual.shapeID;
             int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
 
@@ -65,7 +64,6 @@ public class GameplayManager : MonoBehaviour
                 return;
             }
 
-
             var tempScore = scoreAtual;
             if (scoreAtual.ProxScore != null)
             {
@@ -78,6 +76,7 @@ public class GameplayManager : MonoBehaviour
     #endregion
 
     #region SCORE
+
     private int score;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private AudioClip scoreSound;
@@ -101,29 +100,6 @@ public class GameplayManager : MonoBehaviour
 
         while (!jogoAcabado)
         {
-            // // Instantiate a random prefab from the list
-            // Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
-            // if (tempScore == null)
-            // {
-            //     yield break;
-            // }
-
-            // if (ScoreAnt != null)
-            // {
-                
-            //     scoreAtual = tempScore;
-            //     ScoreAnt = tempScore;
-            // }
-            // else
-            // {
-            //     if (ScoreAnt != null)
-            //     {
-            //         ScoreAnt.ProxScore = tempScore;
-            //     }
-            //     ScoreAnt = tempScore;
-            // }
-
-
             Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
 
             if (tempScore == null)
@@ -154,13 +130,30 @@ public class GameplayManager : MonoBehaviour
         OnGameOver?.Invoke();
         SoundManager.instance.PlaySound(gameOverSound);
         GameManager.instance.currentScore = score;
-        StartCoroutine(GameOverRoutine());
+        gameOverCanvas.gameObject.SetActive(true);
+        PauseGame();
     }
 
     private IEnumerator GameOverRoutine()
     {
         yield return new WaitForSeconds(0f);
         GameManager.instance.goToMainMenu();
+    }
+
+    #endregion
+
+    #region PAUSE_RESUME
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        jogoAcabado = false;
+        gameOverCanvas.gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     #endregion
