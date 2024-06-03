@@ -13,6 +13,8 @@ public class GameplayManager : MonoBehaviour
     public static GameplayManager instance;
     public List<Sprite> shapes;
     public Canvas gameOverCanvas;
+    private Button watchAdbutton;
+    private bool usedExtraLife = false;
 
     private List<GameObject> activeScores = new List<GameObject>();
 
@@ -22,6 +24,7 @@ public class GameplayManager : MonoBehaviour
         jogoAcabado = false;
         gameOverCanvas.gameObject.SetActive(false);
         GameManager.instance.isInitialized = true;
+        watchAdbutton =  gameOverCanvas.transform.Find("BotaoPlayAd").GetComponent<Button>(); // Replace "BotaoPlayAd" with the actual name of your button
 
         score = 0;
         activeScores.Clear();
@@ -33,47 +36,65 @@ public class GameplayManager : MonoBehaviour
 
     #region GAME_LOGIC
 
-    public void FixedUpdate()
+    private void Update()
     {
         if (Input.GetMouseButtonDown(0) && !jogoAcabado)
         {
-            if (scoreAtual == null)
+            HandleShapeClick();
+        }
+    }
+
+    private void HandleShapeClick()
+    {
+        if (scoreAtual == null)
+        {
+            Debug.Log("scoreAtual is null");
+            GameOver();
+            return;
+        }
+
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousPos2D = new Vector2(pos.x, pos.y);
+        RaycastHit2D hit = Physics2D.Raycast(mousPos2D, Vector2.zero);
+
+        if (!hit.collider || !hit.collider.CompareTag("Block"))
+        {
+            Debug.Log("hit.collider is null or not a block");
+            GameOver();
+            return;
+        }
+
+        int currentScoreId = scoreAtual.shapeID;
+        int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
+
+        Debug.Log("currentScoreId: " + currentScoreId);
+        Debug.Log("clickedScoreId: " + clickedScoreId);
+        Debug.Log("--------------------");
+        if (currentScoreId != clickedScoreId)
+        {
+            Debug.Log("Shape IDs do not match. Ending game.");
+            GameOver();
+            return;
+        }
+
+        var tempScore = scoreAtual;
+        scoreAtual = scoreAtual.ProxScore; // Update scoreAtual before destroying the current score
+        Destroy(tempScore.gameObject);
+        UpdateScore();
+
+        // Check if there are more shapes to prevent null reference
+        if (scoreAtual == null)
+        {
+            if (activeScores.Count > 0)
             {
-                Debug.Log("scoreAtual is null");
+                scoreAtual = activeScores[0].GetComponent<Score>();
+            }
+            else
+            {
+                Debug.Log("No more scores. Ending game.");
                 GameOver();
                 return;
             }
-
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousPos2D = new Vector2(pos.x, pos.y);
-            RaycastHit2D hit = Physics2D.Raycast(mousPos2D, Vector2.zero);
-
-            if (!hit.collider || !hit.collider.CompareTag("Block"))
-            {
-                Debug.Log("hit.collider is null or not a block");
-                GameOver();
-                return;
-            }
-
-            int currentScoreId = scoreAtual.shapeID;
-            int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
-
-            Debug.Log("currentScoreId: " + currentScoreId);
-            Debug.Log("clickedScoreId: " + clickedScoreId);
-            Debug.Log("--------------------");
-            if (currentScoreId != clickedScoreId)
-            {
-                Debug.Log("AQUIIIIIIIIIII");
-                GameOver();
-                return;
-            }
-
-            var tempScore = scoreAtual;
-            if (scoreAtual.ProxScore != null)
-            {
-                scoreAtual = scoreAtual.ProxScore;
-            }
-            Destroy(tempScore.gameObject);
         }
     }
 
@@ -91,34 +112,60 @@ public class GameplayManager : MonoBehaviour
         scoreText.text = score.ToString();
         Debug.Log("Score: " + score);
         SoundManager.instance.PlaySound(scoreSound);
+        IncreaseDifficulty();
     }
 
     [SerializeField] private float spawntime;
 
     [SerializeField] public List<Score> scorePrefabs;
     private Score scoreAtual;
+    private bool isSpawning = false;
+
 
     private IEnumerator Spawnscore()
     {
+        isSpawning = true;
         Score ScoreAnt = null;
 
         while (!jogoAcabado)
-        {
-            Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
+        {   
+            int random = Random.Range(0, scorePrefabs.Count);
+            Score tempScore = Instantiate(scorePrefabs[random]);
+            tempScore.shapeID = random; // Ensure correct shapeID assignment
+            Debug.Log("Spawning shapeID: " + tempScore.shapeID);
             activeScores.Add(tempScore.gameObject);
 
-            if (tempScore == null)
+            if (ScoreAnt == null)
             {
-                ScoreAnt = tempScore;
-                scoreAtual = ScoreAnt;
+                scoreAtual = tempScore;
             }
             else
             {
                 ScoreAnt.ProxScore = tempScore;
-                ScoreAnt = tempScore;
             }
 
+            ScoreAnt = tempScore;
+
             yield return new WaitForSeconds(spawntime);
+        }
+
+        isSpawning = false;
+    }
+
+    private void IncreaseDifficulty()
+    {
+        if (score % 5 == 0) // Increase difficulty every 5 points
+        {
+            spawntime = Mathf.Max(0.5f, spawntime - 0.1f); // Decrease spawn time but not below 0.5 seconds
+
+            foreach (var scoreObj in activeScores)
+            {
+                var scoreScript = scoreObj.GetComponent<Score>();
+                if (scoreScript != null)
+                {
+                    scoreScript.IncreaseSpeed();
+                }
+            }
         }
     }
 
@@ -133,17 +180,24 @@ public class GameplayManager : MonoBehaviour
     {
         jogoAcabado = true;
         OnGameOver?.Invoke();
-        SoundManager.instance.PlaySound(gameOverSound);
         GameManager.instance.currentScore = score;
 
-        // Destruir todos os scores atuais
         foreach (GameObject score in activeScores)
         {
             Destroy(score);
         }
         activeScores.Clear();
+        scoreAtual = null;
 
         gameOverCanvas.gameObject.SetActive(true);
+        if (usedExtraLife)
+        {
+            watchAdbutton.gameObject.SetActive(false);
+        }
+        else
+        {
+            watchAdbutton.gameObject.SetActive(true);
+        }
         PauseGame();
     }
 
@@ -167,9 +221,13 @@ public class GameplayManager : MonoBehaviour
         jogoAcabado = false;
         gameOverCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
+        usedExtraLife = true;
+        Debug.Log("USED EXTRA LIFE:");
 
-        // Recomeçar o spawn de scores
-        StartCoroutine(Spawnscore());
+        if (!isSpawning)
+        {
+            StartCoroutine(Spawnscore());
+        }
     }
 
     public void OnWatchAdButtonClicked()

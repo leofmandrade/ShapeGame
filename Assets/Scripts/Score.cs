@@ -19,25 +19,21 @@ public class Score : MonoBehaviour
         jogoAcabado = false;
         if (spawnPositions == null || spawnPositions.Count == 0)
         {
-            // Debug.LogError("spawnPositions is null or empty");
             return;
         }
 
         if (GameManager.instance == null)
         {
-            // Debug.LogError("GameManager.instance is null");
             return;
         }
 
         if (GameplayManager.instance.shapes == null || GameplayManager.instance.shapes.Count == 0)
         {
-            // Debug.LogError("GameManager.instance.shapes is null or empty");
             return;
         }
 
         Vector3 spawnPosition = spawnPositions[Random.Range(0, spawnPositions.Count)];
         transform.position = spawnPosition;
-        // Debug.Log("Spawning at position: " + spawnPosition);
     }
 
     private void FixedUpdate()
@@ -51,7 +47,6 @@ public class Score : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Debug.Log("Collision detected with: " + collision.gameObject.name);
         if (collision.CompareTag("Obstacle"))
         {
             GameplayManager.instance.GameOver();
@@ -81,5 +76,11 @@ public class Score : MonoBehaviour
     private void GameEnd()
     {
         jogoAcabado = true;
+    }
+
+    public void IncreaseSpeed()
+    {
+        speed += 0.5f; // Increase speed by 0.5 units
+        Debug.Log("Increased speed to: " + speed);
     }
 }
