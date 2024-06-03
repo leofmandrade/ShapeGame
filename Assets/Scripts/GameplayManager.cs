@@ -64,6 +64,17 @@ public class GameplayManager : MonoBehaviour
             return;
         }
 
+
+        Debug.Log("Shape ID: " + scoreAtual.shapeID);
+        Debug.Log("Esta na regiao: " + scoreAtual.estaNaRegiao);
+
+        if (!scoreAtual.estaNaRegiao)
+        {
+            Debug.Log("Shape is not in the region. Ending game.");
+            GameOver();
+            return;
+        }
+        
         int currentScoreId = scoreAtual.shapeID;
         int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
 
@@ -181,6 +192,7 @@ public class GameplayManager : MonoBehaviour
         jogoAcabado = true;
         OnGameOver?.Invoke();
         GameManager.instance.currentScore = score;
+        SoundManager.instance.PlaySound(gameOverSound);
 
         foreach (GameObject score in activeScores)
         {

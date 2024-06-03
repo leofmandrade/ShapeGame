@@ -12,11 +12,13 @@ public class Score : MonoBehaviour
     [HideInInspector]
     public Score ProxScore;
 
+    public bool estaNaRegiao;
     private bool jogoAcabado;
 
     private void Awake()
     {
         jogoAcabado = false;
+        estaNaRegiao = false;
         if (spawnPositions == null || spawnPositions.Count == 0)
         {
             return;
@@ -54,6 +56,22 @@ public class Score : MonoBehaviour
         if (collision.CompareTag("Block"))
         {
             Destroy(this.gameObject);
+        }
+        if (collision.CompareTag("Region"))
+        {
+            // Debug.Log("Shape ID: " + shapeID + " entrou na região");
+            estaNaRegiao = true;
+        }
+       
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Region"))
+        {
+            Debug.Log("Saiu da região");
+            // atualiza a variavel do GameplayManager "estaNaRegiao" para false
+            estaNaRegiao = false;
         }
     }
 
