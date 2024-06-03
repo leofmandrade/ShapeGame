@@ -50,10 +50,6 @@ public class GameplayManager : MonoBehaviour
 
             if (!hit.collider || !hit.collider.CompareTag("Block"))
             {
-                foreach (GameObject score in activeScores)
-                {
-                    Destroy(score);
-                }
                 Debug.Log("hit.collider is null or not a block");
                 GameOver();
                 return;
@@ -139,6 +135,14 @@ public class GameplayManager : MonoBehaviour
         OnGameOver?.Invoke();
         SoundManager.instance.PlaySound(gameOverSound);
         GameManager.instance.currentScore = score;
+
+        // Destruir todos os scores atuais
+        foreach (GameObject score in activeScores)
+        {
+            Destroy(score);
+        }
+        activeScores.Clear();
+
         gameOverCanvas.gameObject.SetActive(true);
         PauseGame();
     }
@@ -156,10 +160,6 @@ public class GameplayManager : MonoBehaviour
     private void PauseGame()
     {
         Time.timeScale = 0f;
-        foreach (GameObject score in activeScores)
-        {
-            score.SetActive(false);
-        }
     }
 
     public void ResumeGame()
@@ -167,10 +167,9 @@ public class GameplayManager : MonoBehaviour
         jogoAcabado = false;
         gameOverCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
-        foreach (GameObject score in activeScores)
-        {
-            score.SetActive(true);
-        }
+
+        // Recomeçar o spawn de scores
+        StartCoroutine(Spawnscore());
     }
 
     public void OnWatchAdButtonClicked()
