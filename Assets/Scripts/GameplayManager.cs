@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameplayManager : MonoBehaviour
     public List<Sprite> shapes;
     public Canvas gameOverCanvas;
 
+    private List<GameObject> activeScores = new List<GameObject>();
+
     void Awake()
     {
         instance = this;    
@@ -21,6 +24,7 @@ public class GameplayManager : MonoBehaviour
         GameManager.instance.isInitialized = true;
 
         score = 0;
+        activeScores.Clear();
         scoreText.text = score.ToString();
         StartCoroutine(Spawnscore());
     }
@@ -46,6 +50,10 @@ public class GameplayManager : MonoBehaviour
 
             if (!hit.collider || !hit.collider.CompareTag("Block"))
             {
+                foreach (GameObject score in activeScores)
+                {
+                    Destroy(score);
+                }
                 Debug.Log("hit.collider is null or not a block");
                 GameOver();
                 return;
@@ -101,6 +109,7 @@ public class GameplayManager : MonoBehaviour
         while (!jogoAcabado)
         {
             Score tempScore = Instantiate(scorePrefabs[Random.Range(0, scorePrefabs.Count)]);
+            activeScores.Add(tempScore.gameObject);
 
             if (tempScore == null)
             {
@@ -147,6 +156,10 @@ public class GameplayManager : MonoBehaviour
     private void PauseGame()
     {
         Time.timeScale = 0f;
+        foreach (GameObject score in activeScores)
+        {
+            score.SetActive(false);
+        }
     }
 
     public void ResumeGame()
@@ -154,6 +167,20 @@ public class GameplayManager : MonoBehaviour
         jogoAcabado = false;
         gameOverCanvas.gameObject.SetActive(false);
         Time.timeScale = 1f;
+        foreach (GameObject score in activeScores)
+        {
+            score.SetActive(true);
+        }
+    }
+
+    public void OnWatchAdButtonClicked()
+    {
+        InterstitialAdExample.instance.ShowAd();
+    }
+
+    public void OnMainMenuButtonClicked()
+    {
+        StartCoroutine(GameOverRoutine());
     }
 
     #endregion

@@ -38,8 +38,6 @@ public class Score : MonoBehaviour
         Vector3 spawnPosition = spawnPositions[Random.Range(0, spawnPositions.Count)];
         transform.position = spawnPosition;
         // Debug.Log("Spawning at position: " + spawnPosition);
-
-        
     }
 
     private void FixedUpdate()
@@ -57,6 +55,10 @@ public class Score : MonoBehaviour
         if (collision.CompareTag("Obstacle"))
         {
             GameplayManager.instance.GameOver();
+        }
+        if (collision.CompareTag("Block"))
+        {
+            Destroy(this.gameObject);
         }
     }
 

@@ -1,20 +1,22 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
- 
+
 public class InterstitialAdExample : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     [SerializeField] string _androidAdUnitId = "Interstitial_Android";
     [SerializeField] string _iOsAdUnitId = "Interstitial_iOS";
     string _adUnitId;
- 
+    public static InterstitialAdExample instance;
+
     void Awake()
     {
+        instance = this;
         // Get the Ad Unit ID for the current platform:
         _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
             ? _iOsAdUnitId
             : _androidAdUnitId;
     }
- 
+
     // Load content to the Ad Unit:
     public void LoadAd()
     {
@@ -22,7 +24,7 @@ public class InterstitialAdExample : MonoBehaviour, IUnityAdsLoadListener, IUnit
         Debug.Log("Loading Ad: " + _adUnitId);
         Advertisement.Load(_adUnitId, this);
     }
- 
+
     // Show the loaded content in the Ad Unit:
     public void ShowAd()
     {
@@ -30,26 +32,36 @@ public class InterstitialAdExample : MonoBehaviour, IUnityAdsLoadListener, IUnit
         Debug.Log("Showing Ad: " + _adUnitId);
         Advertisement.Show(_adUnitId, this);
     }
- 
+
     // Implement Load Listener and Show Listener interface methods: 
     public void OnUnityAdsAdLoaded(string adUnitId)
     {
         // Optionally execute code if the Ad Unit successfully loads content.
     }
- 
-    public void OnUnityAdsFailedToLoad(string _adUnitId, UnityAdsLoadError error, string message)
+
+    public void OnUnityAdsFailedToLoad(string adUnitId, UnityAdsLoadError error, string message)
     {
-        Debug.Log($"Error loading Ad Unit: {_adUnitId} - {error.ToString()} - {message}");
+        Debug.Log($"Error loading Ad Unit: {adUnitId} - {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to load, such as attempting to try again.
     }
- 
-    public void OnUnityAdsShowFailure(string _adUnitId, UnityAdsShowError error, string message)
+
+    public void OnUnityAdsShowFailure(string adUnitId, UnityAdsShowError error, string message)
     {
-        Debug.Log($"Error showing Ad Unit {_adUnitId}: {error.ToString()} - {message}");
+        Debug.Log($"Error showing Ad Unit {adUnitId}: {error.ToString()} - {message}");
         // Optionally execute code if the Ad Unit fails to show, such as loading another ad.
     }
- 
-    public void OnUnityAdsShowStart(string _adUnitId) { }
-    public void OnUnityAdsShowClick(string _adUnitId) { }
-    public void OnUnityAdsShowComplete(string _adUnitId, UnityAdsShowCompletionState showCompletionState) { }
+
+    public void OnUnityAdsShowStart(string adUnitId) { }
+
+    public void OnUnityAdsShowClick(string adUnitId) { }
+
+    public void OnUnityAdsShowComplete(string adUnitId, UnityAdsShowCompletionState showCompletionState)
+    {
+        // Call ResumeGame() when the ad is closed
+        if (showCompletionState == UnityAdsShowCompletionState.COMPLETED || 
+            showCompletionState == UnityAdsShowCompletionState.SKIPPED)
+        {
+            GameplayManager.instance.ResumeGame();
+        }
+    }
 }
