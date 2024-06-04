@@ -179,16 +179,6 @@
         "com.unity.2d.aseprite": "1.1.1"
       }
     },
-    "com.unity.feature.mobile": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.mobile.android-logcat": "1.4.0",
-        "com.unity.adaptiveperformance": "4.0.1",
-        "com.unity.mobile.notifications": "2.3.2"
-      }
-    },
     "com.unity.ide.visualstudio": {
       "version": "2.0.22",
       "depth": 0,
@@ -210,22 +200,6 @@
       "depth": 2,
       "source": "registry",
       "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mobile.android-logcat": {
-      "version": "1.4.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.mobile.notifications": {
-      "version": "2.3.2",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.androidjni": "1.0.0"
-      },
       "url": "https://packages.unity.com"
     },
     "com.unity.profiling.core": {

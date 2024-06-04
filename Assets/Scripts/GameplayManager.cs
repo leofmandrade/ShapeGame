@@ -31,7 +31,7 @@ public class GameplayManager : MonoBehaviour
         activeScores.Clear();
         scoreText.text = score.ToString();
         StartCoroutine(Spawnscore());
-
+        InterstitialAdExample.instance.LoadAd();
     }
 
     #endregion
@@ -307,3 +307,4 @@ public class GameplayManager : MonoBehaviour
 
     #endregion
 }
+
