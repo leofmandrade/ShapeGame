@@ -30,7 +30,7 @@ public class GameplayManager : MonoBehaviour
         activeScores.Clear();
         scoreText.text = score.ToString();
         StartCoroutine(Spawnscore());
-        
+
     }
 
     #endregion
@@ -43,6 +43,22 @@ public class GameplayManager : MonoBehaviour
         {
             HandleShapeClick();
         }
+    }
+
+    IEnumerator ScaleAndDestroy(GameObject objectToDestroy, float scaleFactor, float duration)
+    {
+        float startTime = Time.time;
+        float endTime = startTime + duration;
+
+        while (Time.time < endTime)
+        {
+            float progress = Mathf.InverseLerp(startTime, endTime, Time.time);
+            objectToDestroy.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * scaleFactor, progress);
+            objectToDestroy.transform.Rotate(Vector3.forward, 180 * progress);
+            yield return null;
+        }
+
+        Destroy(objectToDestroy);
     }
 
     private void HandleShapeClick()
@@ -91,7 +107,10 @@ public class GameplayManager : MonoBehaviour
 
         var tempScore = scoreAtual;
         scoreAtual = scoreAtual.ProxScore; // Update scoreAtual before destroying the current score
-        Destroy(tempScore.gameObject);
+        //change scale before destroy
+        // tempScore.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        // Destroy(tempScore.gameObject);
+        StartCoroutine(ScaleAndDestroy(tempScore.gameObject, 0.1f, 0.1f));
         UpdateScore();
 
         // Check if there are more shapes to prevent null reference
@@ -166,7 +185,7 @@ public class GameplayManager : MonoBehaviour
 
     private void IncreaseDifficulty()
     {
-        if (score % 5 == 0) // Increase difficulty every 5 points
+        if (score % 5 == 0 && score < 142) // Increase difficulty every 5 points
         {
             spawntime = Mathf.Max(0.5f, spawntime - 0.1f); // Decrease spawn time but not below 0.5 seconds
 

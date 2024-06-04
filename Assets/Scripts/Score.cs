@@ -98,7 +98,9 @@ public class Score : MonoBehaviour
 
     public void IncreaseSpeed()
     {
-        speed += 0.5f; // Increase speed by 0.5 units
+        float speedincrement = 0.5f;
+        speed += speedincrement;
+        speedincrement += 0.1f;
         Debug.Log("Increased speed to: " + speed);
     }
 }
