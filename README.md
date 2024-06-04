@@ -29,6 +29,7 @@
 
 - **[Game Design Document (GDD)](https://app.milanote.com/1SeyRM1TsfSDem/mobilegame?p=qr4eIbSlqvc)**
 - **[Repositório no GitHub](https://github.com/leofmandrade/ShapeGame)**
+- **[Itch.io](https://leofmandrade.itch.io/shape-tap-mania)**
 
 ## Como Jogar
 
