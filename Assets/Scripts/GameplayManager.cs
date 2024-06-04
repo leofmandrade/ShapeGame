@@ -15,6 +15,7 @@ public class GameplayManager : MonoBehaviour
     public Canvas gameOverCanvas;
     private Button watchAdbutton;
     private bool usedExtraLife = false;
+    private TMP_Text onemoretrytext;
 
     private List<GameObject> activeScores = new List<GameObject>();
 
@@ -25,7 +26,7 @@ public class GameplayManager : MonoBehaviour
         gameOverCanvas.gameObject.SetActive(false);
         GameManager.instance.isInitialized = true;
         watchAdbutton =  gameOverCanvas.transform.Find("BotaoPlayAd").GetComponent<Button>(); // Replace "BotaoPlayAd" with the actual name of your button
-
+        onemoretrytext = gameOverCanvas.transform.Find("oneMoreTry").GetComponent<TMP_Text>();
         score = 0;
         activeScores.Clear();
         scoreText.text = score.ToString();
@@ -61,6 +62,26 @@ public class GameplayManager : MonoBehaviour
         Destroy(objectToDestroy);
     }
 
+    //shape click
+    IEnumerator ShapeClick(GameObject clicked, float scaleFactor, float duration)
+    {
+        float startTime = Time.time;
+        float endTime = startTime + duration;
+
+        while (Time.time < endTime)
+        {
+            //decrease and increase size
+
+            float progress = Mathf.InverseLerp(startTime, endTime, Time.time);
+            clicked.transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * scaleFactor, progress);
+
+
+            yield return null;
+        }
+        clicked.transform.localScale = Vector3.one;
+
+    }
+
     private void HandleShapeClick()
     {
         if (scoreAtual == null)
@@ -94,6 +115,8 @@ public class GameplayManager : MonoBehaviour
         
         int currentScoreId = scoreAtual.shapeID;
         int clickedScoreId = hit.collider.GetComponent<Player>().shapeID;
+        //animate the block being clicked
+        StartCoroutine(ShapeClick(hit.collider.gameObject, 0.8f, 0.1f));
 
         Debug.Log("currentScoreId: " + currentScoreId);
         Debug.Log("clickedScoreId: " + clickedScoreId);
@@ -225,10 +248,12 @@ public class GameplayManager : MonoBehaviour
         if (usedExtraLife)
         {
             watchAdbutton.gameObject.SetActive(false);
+            onemoretrytext.gameObject.SetActive(false);
         }
         else
         {
             watchAdbutton.gameObject.SetActive(true);
+            onemoretrytext.gameObject.SetActive(true);
         }
         PauseGame();
     }
