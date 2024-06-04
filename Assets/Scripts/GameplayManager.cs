@@ -95,13 +95,11 @@ public class GameplayManager : MonoBehaviour
         Vector2 mousPos2D = new Vector2(pos.x, pos.y);
         RaycastHit2D hit = Physics2D.Raycast(mousPos2D, Vector2.zero);
 
-        if (!hit.collider || !hit.collider.CompareTag("Block"))
+        if (hit.collider == null || !hit.collider.CompareTag("Block"))
         {
-            Debug.Log("hit.collider is null or not a block");
-            GameOver();
+            Debug.Log("No block clicked.");
             return;
         }
-
 
         Debug.Log("Shape ID: " + scoreAtual.shapeID);
         Debug.Log("Esta na regiao: " + scoreAtual.estaNaRegiao);
