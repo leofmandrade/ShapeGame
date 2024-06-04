@@ -30,6 +30,7 @@ public class GameplayManager : MonoBehaviour
         activeScores.Clear();
         scoreText.text = score.ToString();
         StartCoroutine(Spawnscore());
+        
     }
 
     #endregion
@@ -215,8 +216,15 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator GameOverRoutine()
     {
+
+        
+        
         yield return new WaitForSeconds(0f);
         GameManager.instance.goToMainMenu();
+        jogoAcabado = false;
+        gameOverCanvas.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        usedExtraLife = false;
     }
 
     #endregion
@@ -244,6 +252,7 @@ public class GameplayManager : MonoBehaviour
 
     public void OnWatchAdButtonClicked()
     {
+
         InterstitialAdExample.instance.ShowAd();
     }
 
