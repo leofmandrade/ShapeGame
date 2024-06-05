@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 13712
+  controlID: 17853
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_UseMipMap: 0
   m_SimulatorState:
     controlPanelVisible: 0
-    controlPanelWidth: NaN
+    controlPanelWidth: 0
     controlPanelFoldoutKeys:
     - UnityEditor.AdaptivePerformance.Editor.AdaptivePerformanceUIExtension
     - UnityEditor.AdaptivePerformance.Samsung.Android.Editor.AdaptivePerformanceGoogleUIExtension
@@ -90,7 +90,7 @@ MonoBehaviour:
     - '{"m_SerializationStates":{"androidSystemFoldout":false}}'
     - '{"m_SerializationStates":{"settingsFoldout":false,"vrrFoldout":false,"androidSystemFoldout":false}}'
     - '{}'
-    scale: 10
+    scale: 19
     fitToScreenEnabled: 1
     rotationDegree: 0
     highlightSafeAreaEnabled: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 13676
+  controlID: 17854
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 13671
+  controlID: 17855
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -213,7 +213,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: c89effff76b1ffffbeb1ffff84b3ffffaeb3ffff02b8ffff4ab8ffff2cbaffff56baffffecc0ffff34c1ffff16c3ffff40c3ffffdac9ffff22caffff0accffff3accfffff4d4ffff3cd5ffff24d7ffff54d7ffff94edffffdcedffffc2efffffecefffff1afbffff527c0000
+      m_ExpandedIDs: 6c32ffffb432ffff9634ffffc034ffff3c3bffff843bffff4a3dffff743dffff7442ffffbc42ffffa244ffffd044ffff7e8cffffb290fffff690ffffd892ffff0293ffffc89effff76b1ffffbeb1ffff84b3ffffaeb3ffff02b8ffff4ab8ffff2cbaffff56baffffecc0ffff34c1ffff16c3ffff40c3ffffdac9ffff22caffff0accffff3accfffff4d4ffff3cd5ffff24d7ffff54d7ffff94edffffdcedffffc2efffffecefffff1afbffff527c0000d4860000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -659,9 +659,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -4.970356, y: -15.317898, z: 2.2302268}
+    m_Target: {x: -5.037456, y: -13.596309, z: 2.030035}
     speed: 2
-    m_Value: {x: -4.970356, y: -15.317898, z: 2.2302268}
+    m_Value: {x: -5.037456, y: -13.596309, z: 2.030035}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -711,9 +711,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 12.877969
+    m_Target: 32.89718
     speed: 2
-    m_Value: 12.877969
+    m_Value: 32.89718
   m_Ortho:
     m_Target: 1
     speed: 2
