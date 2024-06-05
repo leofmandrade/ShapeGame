@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------------------------------------------------------
 // DISCLAIMER
-// Algumas partes deste código foram inspiradas no vídeo(https://www.youtube.com/watch?v=3i3HUkvRz9I) de GameGrind. Agradecimentos ao autor por compartilhar conhecimentos valiosos que ajudaram no desenvolvimento deste jogo.
+// Algumas partes deste código foram inspiradas no vídeo(https://www.youtube.com/watch?v=3i3HUkvRz9I). Agradecimentos ao autor por compartilhar conhecimentos valiosos que ajudaram no desenvolvimento deste jogo.
 // ----------------------------------------------------------------------------------------------------------------------------
 
 using System.Collections;
